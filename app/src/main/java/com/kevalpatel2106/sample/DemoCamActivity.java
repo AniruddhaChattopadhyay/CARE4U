@@ -18,15 +18,24 @@ package com.kevalpatel2106.sample;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+
 
 import com.androidhiddencamera.CameraConfig;
 import com.androidhiddencamera.CameraError;
@@ -38,17 +47,39 @@ import com.androidhiddencamera.config.CameraImageFormat;
 import com.androidhiddencamera.config.CameraResolution;
 import com.androidhiddencamera.config.CameraRotation;
 
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Random;
+import java.util.UUID;
 
 public class DemoCamActivity extends HiddenCameraActivity {
     private static final int REQ_CODE_CAMERA_PERMISSION = 1253;
 
     private CameraConfig mCameraConfig;
 
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hidden_cam);
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
 
         mCameraConfig = new CameraConfig()
                 .getBuilder(this)
@@ -71,6 +102,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
                     REQ_CODE_CAMERA_PERMISSION);
         }
 
+
         //Take a picture
         findViewById(R.id.capture_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +111,23 @@ public class DemoCamActivity extends HiddenCameraActivity {
                 takePicture();
             }
         });
+
+        findViewById(R.id.goto_Main).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
+    //---------------------------------------------Start Thread-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     @SuppressLint("MissingPermission")
     @Override
@@ -107,8 +155,32 @@ public class DemoCamActivity extends HiddenCameraActivity {
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
 
-        //Display the image to the image view
+        Log.d("Photo", "Image created");
+
+        String dir = saveImage(bitmap);
+        Log.d("Photo", "Image dir: "  + dir);
+
+        Intent intent = new Intent(this, Upload.class);
+        intent.putExtra("DIRECTORY",dir);
+        startService(intent);
+
         ((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(300);
+                    Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
+
     }
 
     @Override
@@ -138,4 +210,98 @@ public class DemoCamActivity extends HiddenCameraActivity {
                 break;
         }
     }
+
+    private void uploadImage(Uri filePath) {
+
+        if(filePath != null)
+        {
+            /*final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();*/
+
+            Random generator = new Random();
+
+            StorageReference ref = storageReference.child("images/"+ "imageJPEG" + generator.nextInt(1000) + ".jpeg");
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    /*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });*/
+        }
+    }
+
+
+    private String saveImage(Bitmap bm){
+        File dir = new File( Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera");
+        File int_dir = getFilesDir();
+
+        Log.d("Photo",int_dir.toString());
+        if (int_dir.exists()){
+            Toast.makeText(getBaseContext(), " exist!", Toast.LENGTH_SHORT).show();
+        }
+        File myDir = new File(int_dir + "/reqimages");
+        boolean success = true;
+        if (!myDir.exists()) {
+            success = myDir.mkdir();
+            Toast.makeText(getBaseContext(), "Test_Directory", Toast.LENGTH_SHORT).show();
+        }
+        if (success) {
+            // Do something on success
+            Toast.makeText(getBaseContext(), "Directory Created", Toast.LENGTH_SHORT).show();
+        } else {
+            // Do something else on failure
+            Toast.makeText(getBaseContext(), "Error Directory", Toast.LENGTH_SHORT).show();
+        }
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "AAA-" + n + ".jpeg";
+        File file = new File(myDir, fname);
+        Log.d("Photo", "" + file);
+
+
+        if (file.exists()) {
+            success = file.delete();
+        }
+        if (success) {
+            // Do something on success
+            Toast.makeText(getBaseContext(), "File Deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            // Do something else on failure
+            Toast.makeText(getBaseContext(), "Error Directory", Toast.LENGTH_SHORT).show();
+        }
+        /*if (file.exists())
+            file.delete();*/
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+        bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("Photo", "Caught Eception:" + e.toString());
+        }
+        return myDir + "/" +  fname;
+    }
+
 }

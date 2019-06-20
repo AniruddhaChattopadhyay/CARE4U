@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "84912636230",
+    "firebase_url": "https://vesaithon-1771.firebaseio.com",
+    "project_id": "vesaithon-1771",
+    "storage_bucket": "vesaithon-1771.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84912636230:android:da5cee35921eb1c6",
+        "android_client_info": {
+          "package_name": "com.kevalpatel2106.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84912636230-rtsgi4qtjnr5qhmr4g1d0vd5as1ugh1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kevalpatel2106.sample",
+            "certificate_hash": "7059bb814c05886c76276b551d5d6d4aa6023346"
+          }
+        },
+        {
+          "client_id": "84912636230-had8onps6qv34eqis7tbvrav14hf0db4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZfJ8xkHm29wFImSYcISAr-3nW09J8eYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84912636230-had8onps6qv34eqis7tbvrav14hf0db4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

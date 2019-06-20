@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(MainActivity.this, Accelerometer_data.class);
+        startService(intent);
+
         findViewById(R.id.btn_using_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,32 +50,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_using_service).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mHiddenCameraFragment != null) {    //Remove fragment from container if present
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .remove(mHiddenCameraFragment)
-                            .commit();
-                    mHiddenCameraFragment = null;
-                }
 
-                startService(new Intent(MainActivity.this, DemoCamService.class));
-            }
-        });
 
-        findViewById(R.id.btn_using_fragment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mHiddenCameraFragment = new DemoCamFragment();
-
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, mHiddenCameraFragment)
-                        .commit();
-            }
-        });
     }
 
     @Override
