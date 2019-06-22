@@ -31,6 +31,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -50,6 +51,9 @@ import com.androidhiddencamera.config.CameraRotation;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -66,9 +70,12 @@ public class DemoCamActivity extends HiddenCameraActivity {
     private static final int REQ_CODE_CAMERA_PERMISSION = 1253;
 
     private CameraConfig mCameraConfig;
+    private FaceDetector detector;
 
     FirebaseStorage storage;
     StorageReference storageReference;
+
+    float smile_prob;
 
 
 
@@ -76,6 +83,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hidden_cam);
+
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -109,6 +117,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
             public void onClick(View view) {
                 //Take picture using the camera without preview.
                 takePicture();
+
             }
         });
 
@@ -157,12 +166,14 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         Log.d("Photo", "Image created");
 
-        String dir = saveImage(bitmap);
-        Log.d("Photo", "Image dir: "  + dir);
+        smile_prob = checkSmile(bitmap);
 
-        Intent intent = new Intent(this, Upload.class);
+        /*String dir = saveImage(bitmap);
+        Log.d("Photo", "Image dir: "  + dir);*/
+
+        /*Intent intent = new Intent(this, Upload.class);
         intent.putExtra("DIRECTORY",dir);
-        startService(intent);
+        startService(intent);*/
 
         ((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
 
@@ -211,48 +222,14 @@ public class DemoCamActivity extends HiddenCameraActivity {
         }
     }
 
-    private void uploadImage(Uri filePath) {
 
-        if(filePath != null)
-        {
-            /*final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();*/
-
-            Random generator = new Random();
-
-            StorageReference ref = storageReference.child("images/"+ "imageJPEG" + generator.nextInt(1000) + ".jpeg");
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    /*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });*/
-        }
-    }
 
 
     private String saveImage(Bitmap bm){
         File dir = new File( Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "Camera");
         File int_dir = getFilesDir();
+
 
         Log.d("Photo",int_dir.toString());
         if (int_dir.exists()){
@@ -302,6 +279,34 @@ public class DemoCamActivity extends HiddenCameraActivity {
             Log.d("Photo", "Caught Eception:" + e.toString());
         }
         return myDir + "/" +  fname;
+    }
+
+    private float checkSmile (Bitmap bitmap){
+
+        detector = new FaceDetector.Builder(getApplicationContext())
+                .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_CLASSIFICATIONS)
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                .build();
+
+        float smile=-1;
+        float size=0;
+
+        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<com.google.android.gms.vision.face.Face> faces = detector.detect(frame);
+
+        for (int index = 0; index < faces.size(); ++index) {
+            Face face = faces.valueAt(index);
+
+            if (face.getHeight()*face.getWidth() > size) {
+                size = face.getHeight()*face.getWidth();
+                smile = face.getIsSmilingProbability();
+            }
+
+            Toast.makeText(this, ""+ smile , Toast.LENGTH_LONG).show();
+        }
+
+        return smile;
     }
 
 }

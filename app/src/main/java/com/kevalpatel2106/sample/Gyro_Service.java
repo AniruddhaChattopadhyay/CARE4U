@@ -1,6 +1,7 @@
 package com.kevalpatel2106.sample;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -28,6 +29,7 @@ public class Gyro_Service extends Service implements SensorEventListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         if (gyro != null) {
             sensorManager.registerListener((SensorEventListener) Gyro_Service.this, gyro, SensorManager.SENSOR_DELAY_NORMAL);
@@ -74,7 +76,9 @@ public class Gyro_Service extends Service implements SensorEventListener {
             g3 = Float.toString(zz);
         }
 
-        sendData.sendData(g1, g2, g3, "https://script.google.com/macros/s/AKfycbxManrWNmgZZ2r6cttnfylpaAYL-FOyC7AZnV8c0edPeGCM-XQl/exec");
+        sendData.sendData(g1, g2, g3, "https://script.google.com/macros/s/AKfycbx9m8ubiNULMFpresxhI8UWfiIQdw-rGPBTGYlWUh6A4Q-1hDCs/exec");
+
+
     }
 
 

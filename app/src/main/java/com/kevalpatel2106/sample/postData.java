@@ -46,12 +46,15 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SendData extends Context {
+public class postData extends Context {
 
-    public void sendData(final String x,final String y, final String z, String url){
+    public void post(final String x,final String y, final String z, String type){
 
+        String url = "http://dataX.pythonanywhere.com/setfalldata/";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        url = url + "a" + x + "a" + y + "a" + z ;
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -89,6 +92,7 @@ public class SendData extends Context {
         queue.add(stringRequest);
 
     }
+
 
     @Override
     public AssetManager getAssets() {

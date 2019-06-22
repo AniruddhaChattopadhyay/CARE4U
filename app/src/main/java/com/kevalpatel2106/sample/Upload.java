@@ -3,9 +3,11 @@ package com.kevalpatel2106.sample;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ public class Upload extends Service {
     FirebaseStorage storage;
     StorageReference storageReference;
 
+    MediaPlayer player;
 
 
     public Upload() {
@@ -137,6 +140,7 @@ public class Upload extends Service {
 
     private void uploadImage(Uri filePath) {
 
+
         if(filePath != null)
         {
             /*final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -151,7 +155,8 @@ public class Upload extends Service {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

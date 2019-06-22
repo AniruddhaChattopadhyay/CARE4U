@@ -32,8 +32,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(MainActivity.this, Accelerometer_data.class);
-        startService(intent);
+
+        findViewById(R.id.btn_using_service).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Accelerometer_data.class);
+                startService(intent);
+            }
+        });
+
+
+
 
         findViewById(R.id.btn_using_activity).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,16 +63,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mHiddenCameraFragment != null) {    //Remove fragment from container if present
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .remove(mHiddenCameraFragment)
-                    .commit();
-            mHiddenCameraFragment = null;
-        }else { //Kill the activity
-            super.onBackPressed();
-        }
-    }
+
 }

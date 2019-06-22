@@ -1,6 +1,7 @@
 package com.kevalpatel2106.sample;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,6 +16,8 @@ public class Orient_service extends Service implements SensorEventListener {
     Sensor orient;
 
     SendData sendData = new SendData();
+    postData post_data = new postData();
+
 
 
     public Orient_service() {
@@ -28,6 +31,7 @@ public class Orient_service extends Service implements SensorEventListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         orient = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         if (orient != null) {
             sensorManager.registerListener((SensorEventListener) Orient_service.this, orient, SensorManager.SENSOR_DELAY_NORMAL);
@@ -74,7 +78,9 @@ public class Orient_service extends Service implements SensorEventListener {
             g3 = Float.toString(zz);
         }
 
-        sendData.sendData(g1, g2, g3, "https://script.google.com/macros/s/AKfycbxManrWNmgZZ2r6cttnfylpaAYL-FOyC7AZnV8c0edPeGCM-XQl/exec");
+        sendData.sendData(g1, g2, g3, "https://script.google.com/macros/s/AKfycbxxufbgx3DN8plqIhaK453ZVK3J0XgBC2ymfUxEbdEHmQQ99UA/exec");
+        //post_data.post(g1,g2,g3,"Orient");
+
     }
 
 
