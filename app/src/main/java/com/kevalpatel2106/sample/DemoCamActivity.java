@@ -116,18 +116,12 @@ public class DemoCamActivity extends HiddenCameraActivity {
             @Override
             public void onClick(View view) {
                 //Take picture using the camera without preview.
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 takePicture();
 
             }
         });
 
-        findViewById(R.id.goto_Main).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     //---------------------------------------------Start Thread-----------------------------------------------------------------------------------------------------------
@@ -175,7 +169,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
         intent.putExtra("DIRECTORY",dir);
         startService(intent);*/
 
-        ((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
+        //((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
 
         new Thread() {
             @Override

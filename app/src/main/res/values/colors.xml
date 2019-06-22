@@ -20,5 +20,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="light_blue">#00B0FF</color>
-    <color name="dark_blue"></color>
+    <color name="white">#ffffff</color>
+    <color name="dark_blue">#303F9F</color>
 </resources>
