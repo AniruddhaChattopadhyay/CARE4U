@@ -12,7 +12,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     // This is important, it will run lint checks but won't abort build
     lintOptions {
@@ -46,7 +46,8 @@ tasks.coveralls {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
 }
 
 

@@ -18,18 +18,21 @@ package com.kevalpatel2106.sample;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.provider.Settings;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -49,22 +52,18 @@ import com.androidhiddencamera.config.CameraResolution;
 import com.androidhiddencamera.config.CameraRotation;
 
 
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
 import java.util.Random;
-import java.util.UUID;
 
 public class DemoCamActivity extends HiddenCameraActivity {
     private static final int REQ_CODE_CAMERA_PERMISSION = 1253;
@@ -74,6 +73,10 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
     FirebaseStorage storage;
     StorageReference storageReference;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=1;
 
     float smile_prob;
 
@@ -85,8 +88,8 @@ public class DemoCamActivity extends HiddenCameraActivity {
         setContentView(R.layout.activity_hidden_cam);
 
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+        //storage = FirebaseStorage.getInstance();
+        //storageReference = storage.getReference();
 
 
         mCameraConfig = new CameraConfig()
@@ -117,7 +120,20 @@ public class DemoCamActivity extends HiddenCameraActivity {
             public void onClick(View view) {
                 //Take picture using the camera without preview.
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                Toast.makeText(DemoCamActivity.this, "Started takepicture", Toast.LENGTH_SHORT).show();
                 takePicture();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            sleep(300);
+                            Intent intent = new Intent(DemoCamActivity.this, RegisterActivity.class);
+                            startActivity(intent);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
 
             }
         });
@@ -147,6 +163,14 @@ public class DemoCamActivity extends HiddenCameraActivity {
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        if(requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS){
+            if (grantResults.length > 0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                //abc
+            } else {
+                //abc
+            }
+        }
     }
 
     @Override
@@ -154,13 +178,23 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         // Convert file to bitmap.
         // Do something.
+        Toast.makeText(this, "Image Taken", Toast.LENGTH_SHORT).show();
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        Toast.makeText(this, "Image Created", Toast.LENGTH_SHORT).show();
 
         Log.d("Photo", "Image created");
 
+        ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);
+
         smile_prob = checkSmile(bitmap);
+
+        MediaPlayer player = MediaPlayer.create(this,Settings.System.DEFAULT_RINGTONE_URI);
+        player.start();
+
+        //Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);
+        //startActivity(intent);
 
         /*String dir = saveImage(bitmap);
         Log.d("Photo", "Image dir: "  + dir);*/
@@ -171,7 +205,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         //((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
 
-        new Thread() {
+        /*new Thread() {
             @Override
             public void run() {
                 try {
@@ -182,7 +216,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        }.start();*/
 
 
 
@@ -302,5 +336,8 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         return smile;
     }
+
+
+
 
 }

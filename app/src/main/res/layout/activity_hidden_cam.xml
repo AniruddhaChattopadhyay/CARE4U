@@ -49,4 +49,16 @@
         android:layout_marginTop="50dp"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="174dp"
+        android:layout_marginRight="174dp"
+        app:srcCompat="@drawable/common_full_open_on_phone" />
 </RelativeLayout>

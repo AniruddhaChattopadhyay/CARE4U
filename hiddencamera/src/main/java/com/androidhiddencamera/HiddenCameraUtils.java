@@ -25,8 +25,8 @@ import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 
 import com.androidhiddencamera.config.CameraImageFormat;
 import com.androidhiddencamera.config.CameraRotation;

@@ -8,10 +8,16 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"
         android:value="face" />
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA8V7BC2IovFWDGcuMxmnUhj4i9RtoFX8M" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -35,12 +41,18 @@
         <service
             android:name=".Accelerometer_data"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+        </service>
         <service
             android:name=".Upload"
             android:enabled="true"
             android:exported="true" />
         <service android:name=".Orient_service" />
+
+        <service
+            android:name=".CameraService"
+            android:process=":newprocess"
+            />
 
         <activity android:name=".MainActivity">
             <intent-filter>

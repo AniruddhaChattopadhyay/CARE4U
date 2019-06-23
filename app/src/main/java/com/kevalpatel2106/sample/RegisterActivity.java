@@ -2,8 +2,10 @@ package com.kevalpatel2106.sample;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
+
+
 
     private Button CreateAccountBtn;
     private EditText Input_name,Input_phone, Input_psswd;
@@ -86,6 +90,8 @@ public class RegisterActivity extends AppCompatActivity {
                     userdataMap.put("phone",phone);
                     userdataMap.put("password",psswd);
                     userdataMap.put("name",name);
+                    userdataMap.put("Latitude","0.0");
+                    userdataMap.put("Longitude","0.0");
 
                     RootRef.child("Users").child(phone).updateChildren(userdataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

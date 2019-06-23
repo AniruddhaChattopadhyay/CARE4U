@@ -23,8 +23,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
