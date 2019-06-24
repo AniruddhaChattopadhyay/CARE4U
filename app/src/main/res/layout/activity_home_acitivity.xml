@@ -17,6 +17,7 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Med_card"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginTop="30dp"
@@ -114,6 +115,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Allergy_card"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginTop="30dp"
@@ -211,6 +213,7 @@
     </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Med_History_card"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginTop="30dp"
@@ -307,6 +310,7 @@
     </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Eat_card"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginTop="30dp"
@@ -403,6 +407,7 @@
     </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Emer_cont_card"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginTop="30dp"
@@ -499,6 +504,7 @@
     </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Sos_card"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginTop="30dp"

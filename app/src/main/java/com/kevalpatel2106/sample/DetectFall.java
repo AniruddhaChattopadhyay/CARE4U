@@ -201,9 +201,6 @@ public class DetectFall extends AppCompatActivity {
         Log.d("MAKECALL","after");
     }
 
-    private void paper(float out){
-        Paper.init(DetectFall.this);
-        Paper.book().write(Prevalent.userfalldata,out );
-    }
+
 
 }

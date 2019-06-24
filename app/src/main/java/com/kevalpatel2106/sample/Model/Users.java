@@ -2,17 +2,18 @@ package com.kevalpatel2106.sample.Model;
 
 public class Users
 {
-    private String name,phone,password;
+    private String name,phone,password,caregiver;
 
     public Users()
     {
 
     }
 
-    public Users(String name, String phone, String password) {
+    public Users(String name, String phone, String password, String caregiver) {
         this.name = name;
         this.phone = phone;
         this.password = password;
+        this.caregiver = caregiver;
     }
 
     public String getName() {
@@ -37,5 +38,13 @@ public class Users
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCaregiver() {
+        return caregiver;
+    }
+
+    public void setCaregiver(String caregiver) {
+        this.caregiver = caregiver;
     }
 }

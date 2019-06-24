@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = Input_name.getText().toString();
         String phone = Input_phone.getText().toString();
         String psswd = Input_psswd.getText().toString();
+        String care = ((EditText) findViewById(R.id.register_caregiver)).getText().toString();
 
         if (TextUtils.isEmpty(name)){
             Toast.makeText(RegisterActivity.this,"Please enter your name/username",Toast.LENGTH_SHORT).show();
@@ -65,17 +66,20 @@ public class RegisterActivity extends AppCompatActivity {
         else if (TextUtils.isEmpty(psswd)){
             Toast.makeText(RegisterActivity.this,"Please enter your password",Toast.LENGTH_SHORT).show();
         }
+        else if (TextUtils.isEmpty(care)){
+            Toast.makeText(RegisterActivity.this,"Please enter your Caregiver's Phone Number",Toast.LENGTH_SHORT).show();
+        }
         else {
             loadingBar.setTitle("Create Account");
             loadingBar.setMessage("Please wait while we validate");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
-            ValidatephoneNumber(name,phone,psswd);
+            ValidatephoneNumber(name,phone,psswd,care);
         }
     }
 
-    private void ValidatephoneNumber(final String name, final String phone, final String psswd){
+    private void ValidatephoneNumber(final String name, final String phone, final String psswd, final String care){
 
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
@@ -92,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                     userdataMap.put("name",name);
                     userdataMap.put("Latitude","0.0");
                     userdataMap.put("Longitude","0.0");
+                    userdataMap.put("Caregiver",care);
 
                     RootRef.child("Users").child(phone).updateChildren(userdataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -9,5 +9,5 @@ public class Prevalent
 
     public static String userPhone = "Phone Number";
     public static String userPassword = "Password";
-    public static String  userfalldata = "-5.0";
+    public static String  careGiver = "Caregiver";
 }

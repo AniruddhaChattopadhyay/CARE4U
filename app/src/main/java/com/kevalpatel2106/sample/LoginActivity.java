@@ -82,14 +82,29 @@ public class LoginActivity extends AppCompatActivity {
 
     private void Account_Acess(final String phone, final String password)
     {
+        final DatabaseReference RootRef;
+        RootRef = FirebaseDatabase.getInstance().getReference();
+
+        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String care = dataSnapshot.child(parentDbName).child(phone).child("Caregiver").getValue(String.class);
+                Paper.book().write(Prevalent.careGiver,care);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Paper.book().write(Prevalent.userPhone,phone);
         if (chkb_remember_me.isChecked())
         {
-            Paper.book().write(Prevalent.userPhone,phone);
             Paper.book().write(Prevalent.userPassword,password);
         }
 
-        final DatabaseReference RootRef;
-        RootRef = FirebaseDatabase.getInstance().getReference();
+
 
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -103,6 +118,10 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         if (userData.getPassword().equals(password))
                         {
+                            String userCaregiver = Paper.book().read(Prevalent.careGiver);
+                            if (userCaregiver == "")
+                                Paper.book().write(Prevalent.careGiver,userData.getCaregiver());
+
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             loadingbar.dismiss();
 

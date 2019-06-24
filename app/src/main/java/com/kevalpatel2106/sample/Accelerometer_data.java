@@ -73,6 +73,7 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
     private SensorManager sensorManager;
     private MediaPlayer player;
+    private String number;
 
     Sensor acc;
 
@@ -82,7 +83,8 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
     double lat, lon;
 
-    float fallprob;
+    private String UserPhone;
+
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -136,11 +138,13 @@ public class Accelerometer_data extends Service implements SensorEventListener {
         }*/
 
 
+        Paper.init(this);
 
+        UserPhone = Paper.book().read(Prevalent.userPhone);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
+        number = Paper.book().read(Prevalent.careGiver);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         acc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -362,8 +366,8 @@ public class Accelerometer_data extends Service implements SensorEventListener {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
 
-        String UserPhone = Paper.book().read(Prevalent.userPhone);
 
+        if (lat<0.0001 && lon <0.00001)
         RootRef.child("Users").child(UserPhone).child("Latitude").setValue(lat);
         RootRef.child("Users").child(UserPhone).child("Longitude").setValue(lon);
 
@@ -508,7 +512,8 @@ public class Accelerometer_data extends Service implements SensorEventListener {
                                 // [START mlkit_read_result]
                                 float[][] output = result.getOutput(0);
                                 System.out.println(output[0][0]+"   "+output[0][1]+"  *************************************************************");
-                                call(output[0][0]);
+                                if (output[0][0]>0.5)
+                                    call(output[0][0]);
                                 //float[] probabilities = output[0];
                                 // [END mlkit_read_result]
                                 // [END_EXCLUDE]
@@ -528,7 +533,7 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
     private void call(float out){
         Log.d("YYY",""+out);
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel","7089646921",null));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel",number,null));
         startActivity(intent);
     }
 
