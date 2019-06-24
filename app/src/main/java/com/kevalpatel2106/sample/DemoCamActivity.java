@@ -122,18 +122,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 Toast.makeText(DemoCamActivity.this, "Started takepicture", Toast.LENGTH_SHORT).show();
                 takePicture();
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            sleep(300);
-                            Intent intent = new Intent(DemoCamActivity.this, RegisterActivity.class);
-                            startActivity(intent);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+
 
             }
         });
@@ -186,7 +175,6 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         Log.d("Photo", "Image created");
 
-        ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);
 
         smile_prob = checkSmile(bitmap);
 
@@ -204,19 +192,32 @@ public class DemoCamActivity extends HiddenCameraActivity {
         startService(intent);*/
 
         //((ImageView) findViewById(R.id.cam_prev)).setImageBitmap(bitmap);
-
-        /*new Thread() {
+        new Thread(){
             @Override
             public void run() {
                 try {
-                    sleep(300);
-                    Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);
+                    sleep(100);
+                    startService(new Intent(DemoCamActivity.this, Accelerometer_data.class));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(100);
+                    Intent intent = new Intent(DemoCamActivity.this, HomeAcitivity.class);
                     startActivity(intent);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }.start();*/
+        }.start();
+
+
 
 
 

@@ -106,10 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             loadingbar.dismiss();
 
-                            Intent intent1 = new Intent(LoginActivity.this, CameraService.class);
+                            Intent intent1 = new Intent(LoginActivity.this, Accelerometer_data.class);
                             startService(intent1);
 
-                            Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                            Intent intent = new Intent(LoginActivity.this,HomeAcitivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }

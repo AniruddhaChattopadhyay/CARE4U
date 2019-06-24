@@ -124,21 +124,21 @@ public class MainActivity extends AppCompatActivity {
                             new android.os.Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                                    Intent intent = new Intent(MainActivity.this, DemoCamActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                 }
                             }, 20L);
 
 
-                            new android.os.Handler().postDelayed(new Runnable() {
+                            /*new android.os.Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, Accelerometer_data.class);
+                                    Intent intent = new Intent(MainActivity.this, CameraService.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startService(intent);
                                 }
-                            }, 20L);
+                            }, 20L);*/
 
 
 

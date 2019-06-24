@@ -31,7 +31,8 @@
         android:label="Care4U"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".HomeAcitivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
 
         <service
@@ -41,18 +42,15 @@
         <service
             android:name=".Accelerometer_data"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true"></service>
         <service
             android:name=".Upload"
             android:enabled="true"
             android:exported="true" />
         <service android:name=".Orient_service" />
-
         <service
             android:name=".CameraService"
-            android:process=":newprocess"
-            />
+            android:process=":newprocess" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

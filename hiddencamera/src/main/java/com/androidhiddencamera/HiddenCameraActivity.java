@@ -33,7 +33,7 @@ import com.androidhiddencamera.config.CameraFacing;
 
 /**
  * Created by Keval on 27-Oct-16.
- * This abstract class provides ability to handle background camera to the activity in which it is
+ * This abstract123 class provides ability to handle background camera to the activity in which it is
  * extended.
  *
  * @author {@link 'https://github.com/kevalpatel2106'}

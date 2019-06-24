@@ -3,6 +3,8 @@ package com.kevalpatel2106.sample;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -16,11 +18,13 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -49,6 +53,9 @@ import java.util.Random;
 
 import io.paperdb.Paper;
 
+import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
+import static com.kevalpatel2106.sample.DemoCamActivity.MY_PERMISSIONS_REQUEST_READ_CONTACTS;
+
 
 public class Accelerometer_data extends Service implements SensorEventListener {
 
@@ -59,7 +66,7 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
     Date date;
 
-    int i, n,ONGOING_NOTIFICATION_ID=1;
+    int i, n,ID_SERVICE=188989898;
 
     double lat, lon;
 
@@ -79,6 +86,18 @@ public class Accelerometer_data extends Service implements SensorEventListener {
         super.onCreate();
         i = 0;
         n = 0;
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .build();
+
+        startForeground(ID_SERVICE, notification);
 
 
 
@@ -193,8 +212,11 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
             //startUploadThread(filePath);
 
-            player = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
-            player.start();
+            try {
+
+                player = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+                player.start();
+            }catch (Exception e){}
 
             i = 0;
             n++;
@@ -302,7 +324,8 @@ public class Accelerometer_data extends Service implements SensorEventListener {
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
+            // for Activity#requestPermissions for more details
+            Log.d("XXX" , "Location Permission Error");
             return;
         }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -325,6 +348,16 @@ public class Accelerometer_data extends Service implements SensorEventListener {
 
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    private String createNotificationChannel(NotificationManager notificationManager){
+        String channelId = "my_service_channelid";
+        String channelName = "My Foreground Service";
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+        // omitted the LED color
+        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        notificationManager.createNotificationChannel(channel);
+        return channelId;
+    }
 
 }
