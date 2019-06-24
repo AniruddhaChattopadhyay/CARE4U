@@ -179,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA},
+                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA,Manifest.permission.CALL_PHONE},
                                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
                             }
@@ -210,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA,Manifest.permission.CAMERA,Manifest.permission.CALL_PHONE},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
