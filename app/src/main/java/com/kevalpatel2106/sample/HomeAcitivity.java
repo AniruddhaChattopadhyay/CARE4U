@@ -20,7 +20,7 @@ public class HomeAcitivity extends AppCompatActivity {
 
     TextView[] textViews ;
     int[] ids;
-    int NUMBER_OF_FEATURES = 6;
+    int NUMBER_OF_FEATURES = 5;
 
 
     @Override
@@ -33,7 +33,7 @@ public class HomeAcitivity extends AppCompatActivity {
         String dt = simpleDateFormat.format(date);
         Paper.init(this);
 
-        ids = new int[]{R.id.date_medicine, R.id.date_allergy, R.id.date_history, R.id.eat, R.id.contact, R.id.sos};
+        ids = new int[]{R.id.date_medicine, R.id.date_allergy, R.id.date_history, R.id.eat, R.id.sos};
         textViews = new TextView[NUMBER_OF_FEATURES];
         for (int i=0;i<NUMBER_OF_FEATURES;i++){
             textViews[i] = (TextView) findViewById(ids[i]);
@@ -54,12 +54,35 @@ public class HomeAcitivity extends AppCompatActivity {
             }
         });
 
+        //------------------------------------------------------Medicine------------------------------------------------------------------
+        findViewById(R.id.Med_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeAcitivity.this,MedicinesActivity.class));
+            }
+        });
+
+        //--------------------------------------------------------Eating-Habits-----------------------------------------------------------------
+        findViewById(R.id.Eat_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeAcitivity.this,ActivityEating.class));
+            }
+        });
 
         //---------------------------------------Allergy----------------------------------------------------------------------------------
-        findViewById(ids[1]).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.Allergy_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeAcitivity.this,AllergyActivity.class));
+            }
+        });
+
+        //------------------------------------------Medical-History---------------------------------------------------------------------------
+        findViewById(R.id.Med_History_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeAcitivity.this,HistoryActivity.class));
             }
         });
     }

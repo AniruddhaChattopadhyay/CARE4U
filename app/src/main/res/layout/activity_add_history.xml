@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context=".AddAllergy">
+    tools:context=".AddHistory">
 
     <EditText
-        android:id="@+id/allergy"
+        android:id="@+id/history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="172dp"
@@ -16,7 +16,7 @@
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Allergy"
+        android:hint="Medical History"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,22 +29,22 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="What causes it?"
+        android:hint="When did it occur?"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allergy" />
+        app:layout_constraintTop_toBottomOf="@+id/history" />
 
     <EditText
-        android:id="@+id/medicinee"
+        android:id="@+id/Description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="What medicines to use for this Allergy?"
+        android:hint="Description"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -52,15 +52,15 @@
         app:layout_constraintTop_toBottomOf="@+id/cause" />
 
     <Button
-        android:id="@+id/add_med_btn"
+        android:id="@+id/add_hist_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/gradient_button"
-        android:text="Add Allergy"
+        android:text="Add Medical History"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicinee" />
+        app:layout_constraintTop_toBottomOf="@+id/Description" />
 </androidx.constraintlayout.widget.ConstraintLayout>

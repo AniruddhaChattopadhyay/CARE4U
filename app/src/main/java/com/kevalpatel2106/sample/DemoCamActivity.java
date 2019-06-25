@@ -180,7 +180,7 @@ public class DemoCamActivity extends HiddenCameraActivity {
 
         smile_prob = checkSmile(bitmap);
 
-        MediaPlayer player = MediaPlayer.create(this,Settings.System.DEFAULT_RINGTONE_URI);
+        MediaPlayer player = MediaPlayer.create(this,Settings.System.DEFAULT_NOTIFICATION_URI);
         player.start();
 
         //Intent intent = new Intent(DemoCamActivity.this, MainActivity.class);

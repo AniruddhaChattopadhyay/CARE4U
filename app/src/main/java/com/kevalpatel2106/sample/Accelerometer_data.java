@@ -108,6 +108,8 @@ public class Accelerometer_data extends Service implements SensorEventListener {
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
         Notification notification = notificationBuilder.setOngoing(true)
+                .setContentTitle("Fall Detector")
+                .setContentText("We got your back!")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
@@ -367,10 +369,10 @@ public class Accelerometer_data extends Service implements SensorEventListener {
         RootRef = FirebaseDatabase.getInstance().getReference();
 
 
-        if (lat<0.0001 && lon <0.00001)
-        RootRef.child("Users").child(UserPhone).child("Latitude").setValue(lat);
-        RootRef.child("Users").child(UserPhone).child("Longitude").setValue(lon);
-
+        if (!(lat<0.0001 || lon <0.00001)) {
+            RootRef.child("Users").child(UserPhone).child("Latitude").setValue(lat);
+            RootRef.child("Users").child(UserPhone).child("Longitude").setValue(lon);
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

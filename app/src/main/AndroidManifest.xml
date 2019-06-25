@@ -32,7 +32,13 @@
         android:label="Care4U"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddAllergy"/>
+        <activity android:name=".AddHistory"></activity>
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".AddEating" />
+        <activity android:name=".ActivityEating" />
+        <activity android:name=".AddMedicine" />
+        <activity android:name=".MedicinesActivity" />
+        <activity android:name=".AddAllergy" />
         <activity android:name=".AllergyActivity" />
         <activity android:name=".HomeAcitivity" />
         <activity android:name=".RegisterActivity" />
